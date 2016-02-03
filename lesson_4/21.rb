@@ -38,3 +38,5 @@ end
 
 
 initial_deck(computer_card, player_card, cards)
+puts "Dealer has: #{computer_card[0][1]} and unknown card"
+puts "You have: #{player_card[0][1]} and #{player_card[1][1]}"
