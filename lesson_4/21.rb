@@ -54,16 +54,26 @@ def give_one_card(card, card_set)
 end
 
 
+def print_result(computer_card, player_card)
+  print "dealer's card "
+  computer_card.each { |card| print card[1] + ' ' }
+  puts ''
+  print "player's card "
+  player_card.each { |card| print card[1] + ' ' }
+  puts ''
+  puts "Dealer's score is: #{total_score(computer_card)}"
+  puts "Player's score is: #{total_score(player_card)}"
+end
 
-initialize_deck(computer_card,player_card,cards)
-give_card(computer_card, player_card, cards)
-puts "Dealer has: #{computer_card[0][1]} and unknown card"
-puts "You have: #{player_card[0][1]} and #{player_card[1][1]}"
 
 
 
 play_again =''
 loop do
+  initialize_deck(computer_card,player_card,cards)
+  give_card(computer_card, player_card, cards)
+  puts "Dealer has: #{computer_card[0][1]} and unknown card"
+  puts "You have: #{player_card[0][1]} and #{player_card[1][1]}"
   answer = ''
 
   loop do 
@@ -109,7 +119,15 @@ loop do
 
   if total_score(player_card) > 21
     puts "-----player busted!-----"
-    break
+    print_result(computer_card, player_card)
+    puts '------------------------------------'
+    puts "Play again? y/n"
+    play_again = gets.chomp
+    if play_again.downcase.start_with?('y')
+      next
+    else
+      break
+    end
   end
 
    ##computer turn
@@ -125,9 +143,17 @@ loop do
 
   if total_score(computer_card)  > 21
     puts "-----Dealer busted!-----"
-    print "dealer's card "
-    computer_card.each { |card| print card[1] + ' ' }
-    break
+    #print "dealer's card "
+    #computer_card.each { |card| print card[1] + ' ' }
+    print_result(computer_card, player_card)
+    puts '------------------------------------'
+    puts "Play again? y/n"
+    play_again = gets.chomp
+    if play_again.downcase.start_with?('y')
+      next
+    else
+      break
+    end
   end  
 
   computer_score = total_score(computer_card)
@@ -135,19 +161,29 @@ loop do
 
   if (computer_score == 21 && player_score == 21)
     puts "-----Dealer wins!-----"
-    puts "Deal's score is: #{computer_score}"
-  elsif (computer_score < player_score)
+    #puts "Deal's score is: #{computer_score}"
+    print_result(computer_card, player_card)
+  elsif (computer_score < player_score )
     puts "-----Player wins!-----"
-    print "dealer's card "
-    computer_card.each { |card| print card[1] + ' ' }
-    puts ''
-    puts "Dealer's score is: #{computer_score}"
+    #print "dealer's card "
+    #computer_card.each { |card| print card[1] + ' ' }
+    #puts ''
+    #puts "Dealer's score is: #{computer_score}"
+    print_result(computer_card, player_card)
+  elsif (computer_score == player_score)
+    puts "-----Tie!-----"
+    #print "dealer's card "
+    #computer_card.each { |card| print card[1] + ' ' }
+    #puts ''
+    #puts "Dealer's score is: #{computer_score}"
+    print_result(computer_card, player_card)
   else
     puts "-----Dealer wins!-----"
-    print "dealer's card "
-    computer_card.each { |card| print card[1] + ' ' }
-    puts ''
-    puts "Dealer's score is: #{computer_score}"
+    #print "dealer's card "
+    #computer_card.each { |card| print card[1] + ' ' }
+    #puts ''
+    #puts "Dealer's score is: #{computer_score}"
+    print_result(computer_card, player_card)
   end
 
   puts '------------------------------------'
