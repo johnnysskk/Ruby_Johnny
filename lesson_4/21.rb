@@ -94,26 +94,11 @@ loop do
     end
 
     give_one_card(player_card,cards) if answer == 'h' 
-    if total_score(player_card) > 21
-      print 'You have: '
-      player_card.each { |card| print card[1] + ' ' }
-      puts ''
-      #puts "your score is: #{total_score(player_card)}"
-      #puts "busted!!"
-      break
-    elsif total_score(player_card) == 21
-      print 'You have: '
-      player_card.each { |card| print card[1] + ' ' }
-      puts ''
-      #puts "your score is: #{total_score(player_card)}"
-      #puts "You win!!"
-      break
-    else
-      print 'You have: '
-      player_card.each { |card| print card[1] + ' ' }
-      puts ''
-      puts "your score is: #{total_score(player_card)}"
-    end
+    print 'You have: '
+    player_card.each { |card| print card[1] + ' ' }
+    puts ''      
+    puts "your score is: #{total_score(player_card)}"
+    break if total_score(player_card) > 21 
 
   end
 
