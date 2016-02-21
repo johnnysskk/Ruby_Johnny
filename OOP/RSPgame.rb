@@ -2,44 +2,94 @@
 
 
 class Player
-  attr_accessor :type , :move, :name
-  def initialize(type)
-    @type = type
-    @move = nil
-  end 
-
-  def choose
-    if type == "player"
-      choice = nil
-      puts "Please enter a choice: "
-      loop do 
-        choice = gets.chomp
-        break if ['Paper', 'Scissor', 'Rock'].include? choice
-        puts "Please enter valid choice, thank you!"
-      end
-      self.move = choice
-    else
-      self.move = ['Paper', 'Scissor', 'Rock'].sample
-    end
+  attr_accessor :move, :name
+  def initialize
+    set_name
   end 
 end
 
 
+class Human < Player
+
+  def choose
+    choice = nil
+    puts "Please enter a choice: "
+    loop do 
+        choice = gets.chomp
+        break if ['Paper', 'Scissor', 'Rock'].include? choice
+        puts "Please enter valid choice, thank you!"
+      end
+      self.move = Move.new(choice)
+  end
+
+  def set_name
+      puts 'Please enter players name: '
+      name = nil
+      loop do
+      name = gets.chomp
+      break unless name.empty?
+      end
+      self.name = name 
+      puts "Player's name is: #{name}"
+  end
+
+end
+
+class Computer < Player
+  
+  def choose
+    mv = ['Paper', 'Scissor', 'Rock'].sample
+    self.move = Move.new(mv)
+  end
+
+  def set_name
+    self.name = ['AAA', 'BBA' ,'CCC'].sample
+    puts "Computer's name is #{name}"
+  end
+end
+
+class Move
+  attr_accessor :value
+  VALUES = ['Rock', 'Paper', 'Scissor']
+  def initialize(move) 
+    @value = move
+  end
+
+  def >(another_move)
+    if @value == 'Scissor'
+      return true if another_move.value == 'Paper'
+      return false
+    elsif @value == 'Paper'
+      return true if another_move.value == 'Rock'
+      return false
+    elsif @value == 'Rock'
+      return true if another_move.value == 'Scissor'
+      return false
+    end
+  end
+
+  def <(another_move)
+    if @value == 'Scissor'
+      return true if another_move.value == 'Rock'
+      return false
+    elsif @value == 'Paper'
+      return true if another_move.value == 'Scissor'
+      return false
+    elsif @value == 'Rock'
+      return true if another_move.value == 'Paper'
+      return false
+    end
+  end
+
+end
 
 
 
 class RspGame
   attr_accessor :player, :computer
   def initialize
-    @player = Player.new("player")
-    @computer = Player.new("computer")
-  end
-
-  def set_player_name
-      puts 'Please enter players name: '
-      name = gets.chomp
-      self.player.name = name 
-      puts "Player's name is: #{self.player.name}"
+    @player = Human.new
+    @computer = Computer.new
   end
 
   def display_welcome
@@ -53,24 +103,34 @@ class RspGame
   def display_winner
     player_move = player.move
     computer_move = computer.move
-    puts "Your move is #{player_move}"
-    puts "Computer's move is #{computer_move}"
-    if (player_move == 'Scissor' && computer_move == 'Paper') || 
-      (player_move == 'Rock' && computer_move == 'Scissor') || 
-      (player_move == 'Paper' && computer_move == 'Rock')
-      puts "Player wins!!"
-    elsif (computer_move == 'Scissor' && player_move == 'Paper') || 
-      (computer_move == 'Rock' && player_move == 'Scissor') || 
-      (computer_move == 'Paper' && player_move == 'Rock')
-      puts "Computer wins!!"
+    puts "Your move is #{player_move.value}"
+    puts "Computer's move is #{computer_move.value}"
+    
+
+    if player_move> computer_move
+      puts 'Player wins!'
+    elsif player_move < computer_move
+      puts 'Computer wins'
     else
-      puts "Its a tie!!"
+      puts "It's a tie!!!"
     end
+
+
+    # if (player_move == 'Scissor' && computer_move == 'Paper') || 
+    #   (player_move == 'Rock' && computer_move == 'Scissor') || 
+    #   (player_move == 'Paper' && computer_move == 'Rock')
+    #   puts "Player wins!!"
+    # elsif (computer_move == 'Scissor' && player_move == 'Paper') || 
+    #   (computer_move == 'Rock' && player_move == 'Scissor') || 
+    #   (computer_move == 'Paper' && player_move == 'Rock')
+    #   puts "Computer wins!!"
+    # else
+    #   puts "Its a tie!!"
+    # end
   end
 
   def play
     display_welcome
-    set_player_name
     player.choose
     computer.choose
     display_winner
