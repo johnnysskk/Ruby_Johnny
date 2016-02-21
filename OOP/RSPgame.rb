@@ -72,4 +72,23 @@ class RspGame
 
 end
 
-RspGame.new.play
+
+
+#main
+game = RspGame.new
+
+
+loop do
+  game.play 
+  puts 'Play again? y/n'
+  again = nil
+  loop do 
+    again = gets.chomp
+    break if ['y', 'n'].include? again.downcase
+    puts 'Please enter a valid input, y or n.'
+  end
+  break if again == 'n'
+end
+
+
+
