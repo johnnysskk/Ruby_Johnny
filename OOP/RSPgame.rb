@@ -2,7 +2,7 @@
 
 
 class Player
-  attr_accessor :type , :move
+  attr_accessor :type , :move, :name
   def initialize(type)
     @type = type
     @move = nil
@@ -35,6 +35,13 @@ class RspGame
     @computer = Player.new("computer")
   end
 
+  def set_player_name
+      puts 'Please enter players name: '
+      name = gets.chomp
+      self.player.name = name 
+      puts "Player's name is: #{self.player.name}"
+  end
+
   def display_welcome
     puts "Welcome to the world of Rock, Scissor, Paper!!"
   end
@@ -63,6 +70,7 @@ class RspGame
 
   def play
     display_welcome
+    set_player_name
     player.choose
     computer.choose
     display_winner
