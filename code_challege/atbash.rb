@@ -2,11 +2,9 @@ class Atbash
   #build the table char part
   @@MAP_TABLE = {}
   small_char_array = ('a'..'z').to_a.reverse
-  count = 0
-  ('a'..'z').each do |char|
-    @@MAP_TABLE[char] = small_char_array[count]
-    @@MAP_TABLE[char.upcase] = small_char_array[count]
-    count += 1
+  ('a'..'z').each_with_index do |char,index|
+    @@MAP_TABLE[char] = small_char_array[index]
+    @@MAP_TABLE[char.upcase] = small_char_array[index]
   end
   #build the table number part 
   (0..9).each do |num|
