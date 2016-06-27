@@ -1,0 +1,14 @@
+<!-- views/index.erb -->
+<% if session[:message] %>
+  <p><%= session.delete(:message) %></p>
+<% end %>
+
+<ul>
+  <% @files.each do |file| %>
+    <li>
+      <a href="/<%= file %>"><%= file %>   </a>
+      <a href="/<%= file %>/edit"> edit me </a>
+    </li>
+
+  <% end %>
+</ul>
